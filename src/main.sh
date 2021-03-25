@@ -32,11 +32,7 @@ function parseInputs {
   fi
 
   if [ "${INPUT_TF_ACTIONS_SUBCOMMAND}" != "" ]; then
-    if [[ "${INPUT_TF_ACTIONS_SUBCOMMAND}" = run-all* ]]; then
-      tfSubcommand=$(echo $INPUT_TF_ACTIONS_SUBCOMMAND|cut -d ' ' -f 2 )
-    else
       tfSubcommand=${INPUT_TF_ACTIONS_SUBCOMMAND}
-    fi
   else
     echo "Input terraform_subcommand cannot be empty"
     exit 1
@@ -181,6 +177,10 @@ function main {
     validate)
       installTerragrunt
       terragruntValidate ${*}
+      ;;
+    run-all validate)
+      installTerragrunt
+      terragruntValidateAll ${*}
       ;;
     plan)
       installTerragrunt
